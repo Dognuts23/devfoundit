@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Found It | Curated Amazon Finds</title>
+  <meta name="description" content="Dev Found It curates Amazon finds, gadgets, dorm essentials, gym picks, car accessories, and everyday things worth saving." />
+  <style>
+    :root {
+      --bg: #050507;
+      --bg-soft: #0b090d;
+      --card: rgba(18, 14, 20, 0.82);
+      --card-strong: rgba(25, 18, 29, 0.92);
+      --text: #f8f6fb;
+      --muted: #b9adb9;
+      --pink: #ff2fa8;
+      --pink-soft: #ff77c6;
+      --purple: #8b4cff;
+      --border: rgba(255, 47, 168, 0.32);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --shadow-pink: 0 0 28px rgba(255, 47, 168, 0.38);
+      --max: 1180px;
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 72% 10%, rgba(255, 47, 168, 0.18), transparent 28%),
+        radial-gradient(circle at 95% 30%, rgba(139, 76, 255, 0.16), transparent 25%),
+        linear-gradient(180deg, #030304 0%, var(--bg) 45%, #060408 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent 70%);
+      z-index: -2;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      width: min(var(--max), calc(100% - 36px));
+      margin: 18px auto 40px;
+      border: 1px solid var(--border-soft);
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 28px 80px rgba(0,0,0,0.6);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border-soft);
+      background: rgba(8, 6, 10, 0.78);
+      backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.12rem;
+      letter-spacing: -0.03em;
+    }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid var(--pink);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 18px rgba(255, 47, 168, 0.28);
+      color: var(--pink-soft);
+      font-size: 18px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.82);
+    }
+    .nav-links a { opacity: 0.9; transition: color 180ms ease, opacity 180ms ease; }
+    .nav-links a:hover { color: var(--pink-soft); opacity: 1; }
+    .nav-cta {
+      border: 1px solid var(--pink);
+      border-radius: 13px;
+      padding: 12px 18px;
+      font-weight: 800;
+      color: #fff;
+      box-shadow: 0 0 18px rgba(255, 47, 168, 0.2);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-pink); }
+
+    .hero {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 38px;
+      align-items: center;
+      padding: 64px 58px 42px;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background:
+        linear-gradient(90deg, rgba(5,5,7,0.94), rgba(5,5,7,0.22) 42%, rgba(5,5,7,0.55)),
+        radial-gradient(circle at 52% 50%, rgba(255, 47, 168, 0.2), transparent 36%);
+      z-index: 0;
+    }
+    .hero-copy, .hero-visual { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255, 47, 168, 0.34);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(255,255,255,0.035);
+      margin-bottom: 22px;
+    }
+    h1 {
+      font-size: clamp(3.4rem, 7.5vw, 6.9rem);
+      line-height: 0.86;
+      letter-spacing: -0.065em;
+      font-weight: 950;
+      text-transform: uppercase;
+      text-shadow: 0 0 36px rgba(255,255,255,0.16);
+      max-width: 680px;
+    }
+    .script {
+      font-family: "Brush Script MT", "Segoe Script", cursive;
+      color: var(--pink-soft);
+      font-size: clamp(2rem, 4.2vw, 4rem);
+      line-height: 1.05;
+      margin: 18px 0 20px;
+      text-shadow: 0 0 24px rgba(255, 47, 168, 0.55);
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+    .intro {
+      color: rgba(255,255,255,0.82);
+      font-size: 1.06rem;
+      line-height: 1.65;
+      max-width: 490px;
+      margin-bottom: 28px;
+    }
+    .intro span { color: var(--pink-soft); font-weight: 750; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 22px; }
+    .btn {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 14px;
+      padding: 0 24px;
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--pink), #ff0f86); box-shadow: 0 0 26px rgba(255, 47, 168, 0.48); }
+    .btn-secondary { background: rgba(255,255,255,0.025); border-color: rgba(255, 47, 168, 0.76); box-shadow: inset 0 0 18px rgba(255, 47, 168, 0.08); }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-pink); }
+    .micro-proof { display: flex; gap: 28px; flex-wrap: wrap; color: rgba(255,255,255,0.78); font-size: 0.91rem; }
+    .micro-proof span { display: inline-flex; align-items: center; gap: 8px; }
+    .micro-proof b { color: var(--pink-soft); font-weight: 900; }
+
+    .hero-visual { min-height: 390px; display: grid; place-items: center; isolation: isolate; }
+    .stage { position: relative; width: min(420px, 100%); aspect-ratio: 1.05 / 1; display: grid; place-items: center; }
+    .neon-bag {
+      width: 215px;
+      height: 235px;
+      border: 3px solid var(--pink-soft);
+      border-radius: 10px 10px 18px 18px;
+      position: relative;
+      filter: drop-shadow(0 0 20px rgba(255, 47, 168, 0.8));
+      box-shadow: inset 0 0 22px rgba(255,47,168,0.1), 0 0 28px rgba(255,47,168,0.45), 0 0 90px rgba(139,76,255,0.25);
+      background: linear-gradient(160deg, rgba(255,47,168,0.08), rgba(139,76,255,0.02));
+      transform: rotate(1.5deg);
+    }
+    .neon-bag::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -64px;
+      width: 92px;
+      height: 84px;
+      transform: translateX(-50%);
+      border: 3px solid var(--pink-soft);
+      border-bottom: 0;
+      border-radius: 80px 80px 0 0;
+      box-shadow: 0 0 20px rgba(255,47,168,0.65);
+    }
+    .neon-bag::after {
+      content: "♡";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 76px;
+      color: #ffd5ee;
+      text-shadow: 0 0 20px rgba(255,47,168,0.9);
+    }
+    .platform {
+      position: absolute;
+      bottom: 42px;
+      width: 330px;
+      height: 62px;
+      border: 1px solid rgba(139,76,255,0.35);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,47,168,0.24), rgba(139,76,255,0.06) 52%, transparent 70%);
+      filter: blur(0.2px);
+      z-index: -1;
+    }
+    .bubble {
+      position: absolute;
+      border: 1px solid rgba(255, 119, 198, 0.56);
+      color: #ffacd8;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(255,255,255,0.025);
+      box-shadow: 0 0 20px rgba(255,47,168,0.18);
+    }
+    .bubble-one { top: 58px; left: 14px; transform: rotate(-7deg); }
+    .bubble-two { right: 8px; top: 120px; transform: rotate(7deg); color: #c9a8ff; border-color: rgba(139,76,255,0.65); }
+    .sparkle { position: absolute; color: var(--pink-soft); text-shadow: 0 0 18px rgba(255,47,168,0.9); font-size: 26px; }
+    .sparkle.s1 { left: 62px; bottom: 116px; }
+    .sparkle.s2 { right: 62px; top: 58px; color: #b78cff; }
+
+    section { padding: 38px 58px; }
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-size: 1.02rem;
+      font-weight: 900;
+      margin-bottom: 24px;
+    }
+    .section-title::before, .section-title::after {
+      content: "";
+      width: min(130px, 18vw);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,47,168,0.7));
+    }
+    .section-title::after { background: linear-gradient(90deg, rgba(255,47,168,0.7), transparent); }
+    .categories { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; padding-top: 4px; }
+    .category-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      min-height: 126px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: rgba(255,255,255,0.018);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .category-card:hover { transform: translateY(-4px); border-color: var(--pink-soft); box-shadow: 0 0 24px rgba(255,47,168,0.18); }
+    .cat-icon { font-size: 2.1rem; color: var(--pink); margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,47,168,0.45)); }
+    .category-card h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.25; }
+
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .product-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 390px;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .product-card:hover { transform: translateY(-5px); border-color: rgba(255, 119, 198, 0.75); box-shadow: 0 0 28px rgba(255,47,168,0.14); }
+    .save {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,47,168,0.5);
+      display: grid;
+      place-items: center;
+      color: var(--pink-soft);
+      background: rgba(0,0,0,0.35);
+      z-index: 1;
+    }
+    .product-img {
+      border-radius: 15px;
+      min-height: 170px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 44%, rgba(255,47,168,0.22), transparent 34%), linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .product-emoji { font-size: 4.5rem; filter: drop-shadow(0 0 18px rgba(255,47,168,0.35)); }
+    .product-card h3 { font-size: 1.03rem; line-height: 1.2; letter-spacing: -0.02em; }
+    .product-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.45; flex: 1; }
+    .price { color: var(--pink-soft); font-weight: 900; letter-spacing: 0.02em; }
+    .small-btn {
+      min-height: 42px;
+      border-radius: 11px;
+      border: 1px solid var(--pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #fff;
+      transition: background 180ms ease, box-shadow 180ms ease;
+    }
+    .small-btn:hover { background: rgba(255,47,168,0.13); box-shadow: 0 0 18px rgba(255,47,168,0.2); }
+
+    .about { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: stretch; }
+    .about-card, .disclosure { border: 1px solid var(--border-soft); border-radius: var(--radius); background: rgba(255,255,255,0.026); padding: 28px; }
+    .about-card h2 { font-size: clamp(1.8rem, 3.5vw, 3rem); letter-spacing: -0.05em; margin-bottom: 14px; }
+    .about-card p, .disclosure p { color: rgba(255,255,255,0.78); line-height: 1.7; font-size: 1rem; }
+    .disclosure strong { color: var(--pink-soft); }
+
+    .footer {
+      border-top: 1px solid var(--border-soft);
+      padding: 34px 58px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 28px;
+      background: rgba(0,0,0,0.36);
+    }
+    .footer h3 { margin-bottom: 10px; letter-spacing: -0.03em; }
+    .footer p, .footer a { color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
+    .footer a:hover { color: var(--pink-soft); }
+    .footer-links { display: grid; gap: 6px; }
+    .copyright { grid-column: 1 / -1; color: rgba(255,255,255,0.48); font-size: 0.82rem; text-align: center; padding-top: 6px; }
+
+    @media (max-width: 980px) {
+      .page { width: 100%; margin: 0; border-radius: 0; border-left: 0; border-right: 0; }
+      .nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 54px 24px 34px; gap: 18px; }
+      .hero::after { left: 0; opacity: 0.8; }
+      .hero-visual { min-height: 280px; order: -1; opacity: 0.9; }
+      .stage { width: min(310px, 100%); }
+      .neon-bag { width: 150px; height: 165px; }
+      .neon-bag::before { width: 66px; height: 58px; top: -45px; }
+      .neon-bag::after { font-size: 52px; }
+      .platform { width: 250px; bottom: 34px; }
+      .bubble { display: none; }
+      section, .footer { padding: 34px 22px; }
+      .categories { grid-template-columns: repeat(3, 1fr); }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .about, .footer { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .brand-mark { width: 34px; height: 34px; }
+      .nav-cta { padding: 10px 13px; font-size: 0.8rem; }
+      h1 { font-size: 3.65rem; }
+      .script { font-size: 2.15rem; }
+      .hero-actions { align-items: stretch; }
+      .btn { width: 100%; }
+      .categories { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .category-card { min-height: 112px; }
+      .product-grid { grid-template-columns: 1fr; }
+      .product-card { min-height: auto; }
+      .section-title { letter-spacing: 0.16em; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="nav">
+      <a class="brand" href="#top" aria-label="Dev Found It home"><span class="brand-mark">♡</span><span>Dev Found It</span></a>
+      <nav class="nav-links" aria-label="Main navigation"><a href="#top">Home</a><a href="#categories">Categories</a><a href="#finds">Amazon Finds</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+      <a class="nav-cta" href="#finds">Shop My Finds</a>
+    </header>
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <div class="eyebrow">✦ Curated finds, no gatekeeping</div>
+        <h1>Dev<br />Found It</h1>
+        <div class="script">I scroll so you don’t have to.</div>
+        <p class="intro">I’m online way too much, so I find the stuff <span>actually worth saving</span> — dorm finds, gadgets, gym picks, car accessories, and random things that make life easier.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="YOUR-AMAZON-STOREFRONT-LINK-HERE">Shop My Amazon Finds →</a><a class="btn btn-secondary" href="#categories">Browse Categories</a></div>
+        <div class="micro-proof" aria-label="Brand notes"><span><b>✓</b> Handpicked</span><span><b>♡</b> Budget-friendly</span><span><b>✦</b> Useful & cute</span></div>
+      </div>
+      <div class="hero-visual" aria-hidden="true"><div class="stage"><div class="bubble bubble-one">Good finds only</div><div class="bubble bubble-two">Tested. Loved.</div><div class="sparkle s1">✦</div><div class="sparkle s2">✦</div><div class="neon-bag"></div><div class="platform"></div></div></div>
+    </section>
+    <section id="categories" aria-labelledby="categories-title"><div class="categories"><a class="category-card" href="#finds"><div><div class="cat-icon">⌂</div><h3>Home<br />Finds</h3></div></a><a class="category-card" href="#finds"><div><div class="cat-icon">▣</div><h3>Dorm<br />Finds</h3></div></a><a class="category-card" href="#finds"><div><div class="cat-icon">☰</div><h3>Gym<br />Finds</h3></div></a><a class="category-card" href="#finds"><div><div class="cat-icon">▭</div><h3>Tech &<br />Gadgets</h3></div></a><a class="category-card" href="#finds"><div><div class="cat-icon">⌁</div><h3>Car<br />Finds</h3></div></a><a class="category-card" href="#finds"><div><div class="cat-icon">◇</div><h3>Under<br />$25</h3></div></a></div></section>
+    <section id="finds" aria-labelledby="finds-title"><h2 class="section-title" id="finds-title">Featured Finds</h2><div class="product-grid"><article class="product-card"><div class="save">♡</div><div class="product-img"><span class="product-emoji">🌙</span></div><h3>Sunset Projection Lamp</h3><p>Instant cozy-room upgrade for late-night studying, scrolling, or chilling.</p><div class="price">Under $25</div><a class="small-btn" href="YOUR-AFFILIATE-LINK-HERE">View on Amazon</a></article><article class="product-card"><div class="save">♡</div><div class="product-img"><span class="product-emoji">🥤</span></div><h3>Insulated Tumbler</h3><p>Keeps drinks cold through class, gym, work, and whatever else is on the schedule.</p><div class="price">Everyday pick</div><a class="small-btn" href="YOUR-AFFILIATE-LINK-HERE">View on Amazon</a></article><article class="product-card"><div class="save">♡</div><div class="product-img"><span class="product-emoji">🎧</span></div><h3>Wireless Headphones</h3><p>For studying, locking in at the gym, or pretending campus is quiet.</p><div class="price">Worth saving</div><a class="small-btn" href="YOUR-AFFILIATE-LINK-HERE">View on Amazon</a></article><article class="product-card"><div class="save">♡</div><div class="product-img"><span class="product-emoji">🧴</span></div><h3>Skincare Organizer</h3><p>Makes your counter, desk, or dorm shelf look less chaotic in two seconds.</p><div class="price">Clean setup</div><a class="small-btn" href="YOUR-AFFILIATE-LINK-HERE">View on Amazon</a></article></div></section>
+    <section id="about" class="about" aria-label="About Dev Found It"><div class="about-card"><h2>Late-night finds, actually organized.</h2><p>Dev Found It is where I collect the random useful stuff I find online — home upgrades, dorm essentials, gadgets, gym picks, car accessories, and everyday things worth saving. The vibe is simple: less overhyped junk, more stuff you’d actually use.</p></div><div class="disclosure"><p><strong>As an Amazon Associate, I earn from qualifying purchases.</strong></p><br /><p>Some links may be affiliate links, meaning I may earn a commission at no extra cost to you. I’m here to make finding good stuff easier, not to make it weird.</p></div></section>
+    <footer class="footer" id="contact"><div><h3>Dev Found It</h3><p>I scroll so you don’t have to.</p></div><div><h3>Links</h3><div class="footer-links"><a href="https://www.pinterest.com/devfoundit/">Pinterest</a><a href="YOUR-AMAZON-STOREFRONT-LINK-HERE">Amazon Storefront</a><a href="mailto:YOUR-EMAIL-HERE">Contact</a></div></div><div><h3>Legal</h3><div class="footer-links"><a href="#about">Affiliate Disclosure</a><a href="#">Privacy Policy</a><a href="#">Terms</a></div></div><div class="copyright">© 2026 Dev Found It. All rights reserved.</div></footer>
+  </main>
+</body>
+</html>
